@@ -14,7 +14,7 @@ export const site = {
   /** Origin + base path. Everything absolute (canonical, OG, JSON-LD) builds off this. */
   url: `${ORIGIN}${BASE}`,
   description:
-    'Food and protein industry consulting from a 35-year operator who has sat on all three sides of the table — retailer, supplier, and technology. Supply chain traceability, meat category management, and retail go-to-market.',
+    'Food and protein industry consulting from a 37-year operator who has sat on all three sides of the table — retailer, supplier, and technology. Supply chain traceability, meat category management, and retail go-to-market.',
   // TODO replace with Kent's real contact details before launch
   email: 'kent@kpconsulting.co',
   phone: '',
@@ -233,7 +233,7 @@ export const services = [
     faqs: [
       {
         q: 'Can you guarantee a meeting with a national buyer?',
-        a: 'No, and be careful of anyone who does. What is offered is a relationship network built over 35 years, an honest read on whether your brand is ready, and a package the buyer can say yes to. Some accounts open in a call; some take three review cycles.',
+        a: 'No, and be careful of anyone who does. What is offered is a relationship network built over 37 years, an honest read on whether your brand is ready, and a package the buyer can say yes to. Some accounts open in a call; some take three review cycles.',
       },
       {
         q: 'We’re regional. Should we be chasing national?',

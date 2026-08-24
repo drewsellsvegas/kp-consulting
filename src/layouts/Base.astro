@@ -59,8 +59,10 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="twitter:image" content={ogUrl} />
 
     <meta name="theme-color" content="#0d1215" />
+    <link rel="icon" href={p("/favicon.ico")} sizes="32x32" />
     <link rel="icon" href={p("/favicon.svg")} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={p("/apple-touch-icon.png")} />
+    <link rel="manifest" href={p("/site.webmanifest")} />
     <link rel="sitemap" href={p("/sitemap-index.xml")} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
