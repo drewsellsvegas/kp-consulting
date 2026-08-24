@@ -177,8 +177,11 @@ const schema = [
   }
   .intro__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   @media (min-width: 60rem) {
-    .intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr); }
+    .intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr); }
   }
+  /* Give the portrait presence without letting it tower over the copy beside
+     it — roughly 1.3x the height of the text block. */
+  .intro__figure { max-width: 24rem; margin-inline-start: auto; }
   .intro__title { margin-top: 0.9rem; }
   .intro__role {
     margin-top: 0.7rem;
@@ -195,7 +198,7 @@ const schema = [
     border: 1px solid var(--rule-dark);
     box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
   }
-  @media (max-width: 59.99rem) { .intro__figure { max-width: 22rem; } }
+  @media (max-width: 59.99rem) { .intro__figure { max-width: 17rem; margin-inline-start: 0; } }
 
   .story h2 { font-size: var(--step-2); }
 

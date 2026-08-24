@@ -13,6 +13,9 @@
   html { -webkit-text-size-adjust: 100%; }
   body { -webkit-font-smoothing: antialiased; }
   img, picture, svg, video { display: block; max-width: 100%; }
+  /* Without this the width/height attributes win once max-width kicks in and
+     the image is squashed out of its own aspect ratio. */
+  img { height: auto; }
   input, button, textarea, select { font: inherit; color: inherit; }
   h1, h2, h3, h4 { text-wrap: balance; }
   p, li { text-wrap: pretty; }
