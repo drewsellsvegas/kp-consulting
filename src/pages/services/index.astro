@@ -1,0 +1,128 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Cta from '../../components/Cta.astro';
+import { site, services } from '../../data/site';
+import { p } from '../../lib/paths';
+
+const title = 'Consulting Services for Food & Protein Companies';
+const description =
+  'Four consulting practices for protein producers, food brands and grocery retailers: supply chain traceability, meat category management, retail go-to-market, and Hispanic & multicultural food marketing.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${site.url}/services/` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: services.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.name,
+      url: `${site.url}/services/${s.slug}/`,
+    })),
+  },
+];
+---
+<Base title={title} description={description} path="/services/" schema={schema}>
+  <PageHero
+    eyebrow="Services"
+    title="Consulting services for meat, protein and grocery retail"
+    lede="Four practices — supply chain traceability, meat category management, retail go-to-market and multicultural food marketing. Every one came out of a job Kent actually held, not a framework he read about."
+  />
+
+  <section class="band">
+    <div class="wrap">
+      <ol class="practice">
+        {services.map((s) => (
+          <li class="practice__item reveal">
+            <div class="practice__body">
+              <span class="practice__order">Practice {s.order}</span>
+              <h2 class="practice__name"><a href={p(`/services/${s.slug}/`)}>{s.name}</a></h2>
+              <p class="practice__tagline">{s.tagline}</p>
+              <p class="practice__summary">{s.summary}</p>
+              <a class="btn btn--dark practice__btn" href={p(`/services/${s.slug}/`)}>
+                What this looks like <span class="btn__arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div class="practice__panel">
+              <h3 class="practice__panel-head">What you end up with</h3>
+              <ul class="ticks">
+                {s.outcomes.map((o) => <li>{o}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--tight band--off">
+    <div class="wrap wrap--mid center">
+      <p class="tag">Not sure which one</p>
+      <h2 class="pick__head">Most engagements start as one of these and turn into another</h2>
+      <p class="pick__body">
+        A brand that calls about getting into Kroger usually has a category problem first. A retailer
+        that calls about the service case usually has an assortment problem. The intro call exists to
+        work out which conversation you are actually having.
+      </p>
+      <a class="btn pick__btn" href={p("/contact/")}>Schedule a free consultation</a>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .practice { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
+  .practice__item {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--rule);
+  }
+  .practice__item:last-child { border-bottom: 0; padding-bottom: 0; }
+  @media (min-width: 60rem) {
+    .practice__item { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  }
+  .practice__order {
+    font-family: var(--display);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .practice__name { margin-top: 0.7rem; font-size: var(--step-3); }
+  .practice__name a { text-decoration: none; }
+  .practice__name a:hover { color: var(--gold-deep); }
+  .practice__tagline { margin-top: 0.9rem; font-size: var(--step-1); color: var(--ink); max-width: 46ch; }
+  .practice__summary { margin-top: 0.9rem; color: var(--ink-soft); max-width: 58ch; }
+  .practice__btn { margin-top: 1.8rem; }
+  .practice__panel {
+    background: var(--off);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.4rem, 3vw, 2rem);
+  }
+  .practice__panel-head {
+    font-family: var(--display);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.2rem;
+  }
+  .practice__panel .ticks { font-size: var(--step--1); }
+
+  .pick__head { margin-top: 0.9rem; }
+  .pick__body { margin: 1.1rem auto 0; max-width: 58ch; color: var(--ink-soft); }
+  .pick__btn { margin-top: 1.8rem; }
+</style>

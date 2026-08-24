@@ -1,0 +1,240 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import Icon from '../components/Icon.astro';
+import { site, principal, sides, education } from '../data/site';
+import { p } from '../lib/paths';
+
+const title = 'Kent Partida — Food & Protein Consultant';
+const description =
+  'Kent Partida spent 37 years in the meat business: 21 years at Kroger, six at Meyer Natural Foods, and nine at Merck Animal Health / IdentiGen. Retailer, supplier and technology — all three sides of the table.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    url: `${site.url}/about/`,
+    mainEntity: { '@id': `${site.url}/#kent` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${site.url}/#kent`,
+    name: principal.name,
+    jobTitle: principal.role,
+    description,
+    image: `${site.url}/img/kent-portrait-840.jpg`,
+    address: { '@type': 'PostalAddress', addressLocality: 'Windsor', addressRegion: 'CO', addressCountry: 'US' },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of Southern California' },
+    sameAs: [site.linkedin].filter(Boolean),
+    worksFor: { '@type': 'ProfessionalService', name: site.name, url: site.url },
+    knowsAbout: [
+      'Meat and seafood category management',
+      'Food supply chain traceability',
+      'Retail go-to-market strategy',
+      'Hispanic food marketing',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'About', item: `${site.url}/about/` },
+    ],
+  },
+];
+---
+<Base title={title} description={description} path="/about/" schema={schema}>
+  <section class="intro band--dark">
+    <div class="wrap intro__grid">
+      <div>
+        <p class="tag">About</p>
+        <h1 class="intro__title">Kent Partida</h1>
+        <p class="intro__role">{principal.role}</p>
+        <p class="intro__lede">
+          Thirty-seven years in protein, and every one of them within arm’s reach of the meat case.
+          Kent started inside the largest grocer in the country, moved to the supplier side selling
+          into it, and finished in the technology that proves what is in it. Very few people in this
+          industry have worked all three, and none of them explain it the way an operator does.
+        </p>
+      </div>
+      <figure class="intro__figure">
+        <img
+          width="640" height="794"
+          alt={`${principal.name}, principal of ${site.name}`}
+          fetchpriority="high"
+          srcset={`${p("/img/kent-full-640.webp")} 1x, ${p("/img/kent-full-960.webp")} 1.5x`}
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap wrap--mid prose story">
+      <h2>How the three sides fit together</h2>
+      <p>
+        Kent joined <strong>The Kroger Company</strong> in 1988 and stayed 21 years. He ran
+        perishables for the Food4Less division rollout in Chicago — meat, deli and produce, with
+        full P&amp;L — and finished as <strong>Director of Meat and Seafood</strong> in Indianapolis,
+        responsible for 153 stores across five states and four banners doing over $450 million a
+        year. In 2009 that department beat its profit budget by $8 million.
+      </p>
+      <p>
+        That is the retailer’s seat: assortment, shrink, labour, pricing, and the discipline of a
+        department that has to earn its square footage every week.
+      </p>
+      <p>
+        In 2009 he crossed the table to <strong>Meyer Natural Foods</strong>, first running national
+        accounts and then as <strong>Senior Vice President of Sales and Marketing</strong>. He led a
+        30-person team behind Laura’s Lean Beef, Meyer Natural Angus, Dakota Grass Fed and Local
+        Harvest across the U.S. and Canada, built a category management function around
+        84.51°/dunnhumby data, and grew volume by more than 1.5 million pounds a year while
+        delivering record margins in a down cattle market.
+      </p>
+      <p>
+        That is the supplier’s seat: line reviews, private label, new item launches, and the
+        specific problem of getting a buyer to say yes.
+      </p>
+      <p>
+        From 2016 to 2025 he was <strong>Associate Director of Value Chain and Consumer Affairs at
+        Merck Animal Health / IdentiGen</strong>, working with retailers, food service operators and
+        packers to validate their supply chains with DNA traceability — proving the exact origin of
+        meat and seafood and confirming the species in the chain was the species on the label.
+      </p>
+      <p>
+        That is the technology seat: the part of the industry that decides, increasingly, which
+        suppliers a major retailer is still willing to buy from.
+      </p>
+
+      <h2>What he is like to work with</h2>
+      <p>
+        Direct. Kent will tell a producer their cost structure cannot survive the account they are
+        chasing, and he will tell a retailer the reason their service case loses money is that
+        nobody owns it. The value of having sat in every chair is that there is no side to flatter.
+      </p>
+      <p>
+        He is based in <strong>{site.location}</strong> and works with clients across the
+        {' '}{site.serviceArea}.{' '}
+        {site.linkedin && (
+          <>Connect with him on <a href={site.linkedin} rel="me noopener" target="_blank">LinkedIn</a>.</>
+        )}
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--dark band--tight">
+    <div class="wrap">
+      <p class="tag">The three seats</p>
+      <h2 class="seats__head">Where the experience came from</h2>
+      <ol class="seats">
+        {sides.map((side) => (
+          <li class="seat">
+            <p class="seat__years">{side.years}</p>
+            <h3 class="seat__label">{side.label}</h3>
+            <p class="seat__org">{side.org}</p>
+            <p class="seat__detail">{side.detail}</p>
+          </li>
+        ))}
+      </ol>
+      <a class="btn seats__btn" href={p("/track-record/")}>See the full track record <span class="btn__arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="band band--tight band--off">
+    <div class="wrap">
+      <p class="tag">Education &amp; training</p>
+      <h2 class="edu__head">Formal grounding</h2>
+      <ul class="edu">
+        {education.map((e) => (
+          <li class="edu__item">
+            <span class="edu__icon"><Icon name="shield" size={22} /></span>
+            <span class="edu__body">
+              <strong>{e.school}</strong>
+              <span>{e.detail}</span>
+            </span>
+            <span class="edu__year">{e.year}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Cta
+    heading="Talk to Kent directly"
+    body="No account team, no junior associate. Engagements are run by the person whose name is on the door."
+  />
+</Base>
+
+<style>
+  .intro { padding-block: clamp(2.75rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem); position: relative; }
+  .intro::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), color-mix(in srgb, var(--gold) 15%, transparent) 70%);
+  }
+  .intro__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  @media (min-width: 60rem) {
+    .intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr); }
+  }
+  .intro__title { margin-top: 0.9rem; }
+  .intro__role {
+    margin-top: 0.7rem;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--gold);
+  }
+  .intro__lede { margin-top: 1.4rem; max-width: 56ch; font-size: var(--step-1); line-height: 1.62; color: var(--frost-soft); }
+  .intro__figure { margin: 0; }
+  .intro__figure img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rule-dark);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+  }
+  @media (max-width: 59.99rem) { .intro__figure { max-width: 22rem; } }
+
+  .story h2 { font-size: var(--step-2); }
+
+  .seats__head { margin-top: 0.9rem; margin-bottom: 2.2rem; }
+  .seats { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+  @media (min-width: 56rem) { .seats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .seat {
+    background: color-mix(in srgb, var(--white) 4%, transparent);
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.4rem, 3vw, 1.9rem);
+  }
+  .seat__years { font-family: var(--display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; color: var(--gold); }
+  .seat__label { margin-top: 0.5rem; font-size: var(--step-2); }
+  .seat__org { margin-top: 0.3rem; font-weight: 600; color: var(--white); font-size: var(--step--1); }
+  .seat__detail { margin-top: 0.8rem; font-size: var(--step--1); line-height: 1.62; color: var(--frost-soft); }
+  .seats__btn { margin-top: 2.2rem; }
+
+  .edu__head { margin-top: 0.9rem; margin-bottom: 1.8rem; }
+  .edu { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  .edu__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+  }
+  .edu__icon {
+    display: grid;
+    place-items: center;
+    width: 2.4rem; height: 2.4rem;
+    border-radius: 50%;
+    background: var(--gold-wash);
+    color: var(--gold-deep);
+  }
+  .edu__body { display: grid; gap: 0.15rem; }
+  .edu__body span { font-size: var(--step--1); color: var(--ink-soft); }
+  .edu__year { font-family: var(--display); font-weight: 700; font-size: var(--step--1); color: var(--ink-faint); }
+</style>

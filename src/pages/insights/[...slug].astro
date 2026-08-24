@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import { getCollection, render } from 'astro:content';
+import { site, principal } from '../../data/site';
+import { p } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('insights', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const path = `/insights/${post.id}/`;
+
+const others = (await getCollection('insights', ({ data }) => !data.draft))
+  .filter((item) => item.id !== post.id)
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 2);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.published.toISOString(),
+    dateModified: (post.data.updated ?? post.data.published).toISOString(),
+    author: { '@type': 'Person', name: principal.name, url: `${site.url}/about/` },
+    publisher: { '@id': `${site.url}/#organization` },
+    mainEntityOfPage: `${site.url}${path}`,
+    image: `${site.url}/og.png`,
+    articleSection: post.data.topic,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Insights', item: `${site.url}/insights/` },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: `${site.url}${path}` },
+    ],
+  },
+];
+---
+<Base title={post.data.title} description={post.data.description} path={path} schema={schema}>
+  <article>
+    <header class="post-hero band--dark">
+      <div class="wrap wrap--mid">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href={p("/")}>Home</a></li>
+            <li><a href={p("/insights/")}>Insights</a></li>
+          </ol>
+        </nav>
+        <p class="tag">{post.data.topic}</p>
+        <h1 class="post-hero__title">{post.data.title}</h1>
+        <p class="post-hero__meta">
+          <time datetime={post.data.published.toISOString()}>{fmt(post.data.published)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{post.data.readingMinutes} min read</span>
+          <span aria-hidden="true">·</span>
+          <span>{principal.name}</span>
+        </p>
+      </div>
+    </header>
+
+    <div class="band">
+      <div class="wrap wrap--narrow prose article">
+        <p class="article__lede">{post.data.description}</p>
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  {others.length > 0 && (
+    <section class="band band--tight band--off">
+      <div class="wrap">
+        <p class="tag">Keep reading</p>
+        <div class="grid grid--2 more">
+          {others.map((item) => (
+            <a class="more__card" href={p(`/insights/${item.id}/`)}>
+              <span class="more__topic">{item.data.topic}</span>
+              <span class="more__title">{item.data.title}</span>
+              <span class="more__desc">{item.data.description}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Cta />
+</Base>
+
+<style>
+  .post-hero { padding-block: clamp(2rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4rem); position: relative; }
+  .post-hero::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), color-mix(in srgb, var(--gold) 15%, transparent) 70%);
+  }
+  .crumbs { margin-bottom: 1.6rem; }
+  .crumbs ol { display: flex; gap: 0.7rem; list-style: none; margin: 0; padding: 0; font-size: 0.78rem; color: var(--frost-faint); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.7rem; }
+  .crumbs a { text-decoration: none; color: var(--frost-faint); }
+  .crumbs a:hover { color: var(--gold); }
+  .post-hero__title { margin-top: 0.9rem; }
+  .post-hero__meta { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.6rem; font-size: 0.85rem; color: var(--frost-faint); }
+
+  .article__lede {
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    padding-bottom: 1.6rem;
+    margin-bottom: 1.8rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article :global(h2) { font-size: var(--step-2); }
+  .article :global(h3) { font-size: var(--step-1); }
+  .article :global(strong) { color: var(--ink); }
+  .article :global(li) { line-height: 1.68; }
+  .article :global(a) { color: var(--gold-deep); }
+
+  .more { margin-top: 1.8rem; }
+  .more__card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+  }
+  .more__card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: var(--gold); }
+  .more__topic { font-family: var(--display); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-deep); }
+  .more__title { font-family: var(--display); font-weight: 700; font-size: var(--step-1); letter-spacing: -0.02em; line-height: 1.3; }
+  .more__desc { font-size: var(--step--1); color: var(--ink-soft); }
+</style>

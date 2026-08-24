@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import { site, roles, proofPoints } from '../data/site';
+
+const title = '37 Years in Meat, Retail & Food Marketing';
+const description =
+  'The numbers behind KP Consulting: $450M retail meat P&L at Kroger, 153 stores, record margins at Meyer Natural Foods, and nine years of DNA traceability work at Merck Animal Health.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Track record', item: `${site.url}/track-record/` },
+  ],
+};
+---
+<Base title={title} description={description} path="/track-record/" schema={schema}>
+  <PageHero
+    eyebrow="Track record"
+    title="37 years in meat, retail and food marketing"
+    lede="The receipts, role by role. Every figure below came off Kent’s own record — nothing is rounded up, and nothing is somebody else’s work."
+  />
+
+  <section class="band band--tight band--off">
+    <div class="wrap">
+      <div class="grid grid--4 numbers">
+        {proofPoints.map((item, i) => (
+          <div class="reveal" style={`--delay:${i * 70}ms`}>
+            <p class="figure__value">{item.value}</p>
+            <p class="figure__label">{item.label}</p>
+            <p class="figure__note">{item.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <ol class="roles">
+        {roles.map((role) => (
+          <li class="role reveal">
+            <div class="role__meta">
+              <p class="role__years">{role.years}</p>
+              <h2 class="role__company">{role.company}</h2>
+              <p class="role__location">{role.location}</p>
+            </div>
+            <div class="role__body">
+              <h3 class="role__title">{role.title}</h3>
+              <ul class="ticks role__list">
+                {role.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="roles__note">
+        Kent joined The Kroger Company in 1988 and held store, district and division roles across
+        the perishable departments before the director positions listed above.
+      </p>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="Put it to work"
+    heading="Thirty-seven years of this, pointed at your problem"
+    body="Bring the situation — a stalled account, an under-earning department, a claim you cannot prove. Thirty minutes is usually enough to tell whether it is worth an engagement."
+  />
+</Base>
+
+<style>
+  .numbers { row-gap: 2.2rem; }
+  .roles { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .role {
+    display: grid;
+    gap: 1.2rem clamp(2rem, 5vw, 4rem);
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .role:last-of-type { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 58rem) {
+    .role { grid-template-columns: 17rem minmax(0, 1fr); }
+    .role__meta { position: sticky; top: 6.5rem; }
+  }
+  .role__years {
+    font-family: var(--display);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--gold-deep);
+  }
+  .role__company { margin-top: 0.5rem; font-size: var(--step-2); }
+  .role__location { margin-top: 0.3rem; font-size: var(--step--1); color: var(--ink-faint); }
+  .role__title { font-size: var(--step-1); }
+  .role__list { margin-top: 1.3rem; font-size: var(--step--1); }
+  .roles__note { margin-top: 2rem; font-size: var(--step--1); color: var(--ink-faint); max-width: 62ch; }
+</style>

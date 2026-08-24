@@ -1,0 +1,51 @@
+---
+import { sides } from '../data/site';
+import Icon from './Icon.astro';
+
+/**
+ * Kent's differentiator, laid out as the three seats he has actually held.
+ * Order is chronological because that is how the career ran.
+ */
+const icons = { retailer: 'case', supplier: 'handshake', technology: 'shield' } as const;
+---
+<div class="sides grid grid--3">
+  {sides.map((side, i) => (
+    <article class="side reveal" style={`--delay:${i * 90}ms`}>
+      <span class="side__icon"><Icon name={icons[side.key as keyof typeof icons]} size={26} /></span>
+      <p class="side__years">{side.years}</p>
+      <h3 class="side__label">{side.label}</h3>
+      <p class="side__org">{side.org}</p>
+      <p class="side__detail">{side.detail}</p>
+    </article>
+  ))}
+</div>
+
+<style>
+  .sides { align-items: start; }
+  .side {
+    background: color-mix(in srgb, var(--white) 4%, transparent);
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2rem);
+  }
+  .side__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--gold) 16%, transparent);
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+  }
+  .side__years {
+    font-family: var(--display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+  .side__label { margin-top: 0.5rem; font-size: var(--step-2); }
+  .side__org { margin-top: 0.3rem; font-weight: 600; color: var(--white); font-size: var(--step--1); }
+  .side__detail { margin-top: 0.9rem; font-size: var(--step--1); line-height: 1.65; color: var(--frost-soft); }
+</style>

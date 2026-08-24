@@ -1,0 +1,455 @@
+---
+import Base from '../layouts/Base.astro';
+import ThreeSides from '../components/ThreeSides.astro';
+import Cta from '../components/Cta.astro';
+import Icon from '../components/Icon.astro';
+import { site, principal, services, proofPoints, careerBrands, heroProof } from '../data/site';
+import { p } from '../lib/paths';
+
+const title = 'Food & Protein Industry Consulting | KP Consulting';
+const description =
+  'Meat and protein consulting from 37 years on all three sides of the table — Kroger retail, Meyer Natural Foods supply, and Merck DNA traceability. Supply chain traceability, meat category management, and retail go-to-market.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${site.url}/#organization`,
+    name: site.name,
+    legalName: site.legalName,
+    url: site.url,
+    email: site.email,
+    description,
+    image: `${site.url}/og.png`,
+    priceRange: '$$$',
+    areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'Canada' }],
+    address: { '@type': 'PostalAddress', addressLocality: 'Windsor', addressRegion: 'CO', addressCountry: 'US' },
+    founder: { '@id': `${site.url}/#kent` },
+    knowsAbout: [
+      'Food supply chain traceability',
+      'DNA origin and species verification',
+      'Meat and seafood category management',
+      'Retail go-to-market strategy',
+      'Hispanic and multicultural food marketing',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Consulting services',
+      itemListElement: services.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: s.name,
+          description: s.summary,
+          url: `${site.url}/services/${s.slug}/`,
+        },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${site.url}/#kent`,
+    name: principal.name,
+    jobTitle: principal.role,
+    worksFor: { '@id': `${site.url}/#organization` },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of Southern California' },
+    sameAs: [site.linkedin].filter(Boolean),
+    url: `${site.url}/about/`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    url: site.url,
+    name: site.name,
+    publisher: { '@id': `${site.url}/#organization` },
+  },
+];
+
+const audiences = [
+  {
+    who: 'Protein producers & processors',
+    body: 'You have the product and the plant. What you are missing is the merchandiser relationship and proof of origin that survives a line review.',
+  },
+  {
+    who: 'Food brands scaling into national retail',
+    body: 'You win regional accounts and get ignored by national ones. Usually the deck is the problem — it is built around your brand instead of the buyer’s category gap.',
+  },
+  {
+    who: 'Grocery retailers & category teams',
+    body: 'The meat department is under-earning its square footage. Assortment, service case, private label, and an un-merchandised shopper are the usual four reasons.',
+  },
+  {
+    who: 'Packers & further processors',
+    body: 'Private label programs, primal rollouts and value-added lines — built and sold from the supplier side into Kroger divisions across the country.',
+  },
+  {
+    who: 'Investors & boards in food',
+    body: 'An operator’s read on whether a protein business can actually hold the shelf space its projections assume.',
+  },
+];
+---
+<Base title={title} description={description} path="/" schema={schema}>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero band--dark">
+    <div class="hero__bg" aria-hidden="true">
+      <img alt="" width="2560" height="1072" fetchpriority="high"
+            srcset={`${p("/img/case-night-1280.webp")} 1280w, ${p("/img/case-night-1920.webp")} 1920w, ${p("/img/case-night-2560.webp")} 2560w`}
+            sizes="100vw"
+          />
+    </div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__copy">
+        <p class="tag">37 years in meat, retail &amp; protein</p>
+        <h1 class="hero__head">
+          Meat &amp; protein industry consulting from <span class="hero__gold">all three sides of the table</span>
+        </h1>
+        <p class="hero__lede">
+          {principal.name} ran a <strong>$450&nbsp;million meat and seafood P&amp;L at Kroger</strong>, sold
+          into that same case as <strong>SVP of Sales and Marketing at Meyer Natural Foods</strong>, then
+          spent nine years proving what was in it with <strong>DNA traceability at Merck Animal Health</strong>.
+          Retailer, supplier, technology — and now that experience works for you.
+        </p>
+        <div class="hero__actions">
+          <a class="btn" href={p("/contact/")}>Schedule a free consultation</a>
+          <a class="btn btn--ghost" href={p("/services/")}>Explore the services</a>
+        </div>
+      </div>
+
+      <figure class="hero__portrait">
+        <img width="560" height="700" alt={`${principal.name}, principal of ${site.name}`}
+            srcset={`${p("/img/kent-portrait-560.webp")} 1x, ${p("/img/kent-portrait-840.webp")} 1.5x`}
+          />
+        <figcaption>
+          <span class="hero__pname">{principal.name}</span>
+          <span class="hero__prole">{principal.role}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="wrap">
+      <ul class="hero__proof">
+        {heroProof.map((item) => (
+          <li>
+            <span class="hero__proof-icon"><Icon name={item.icon} size={26} /></span>
+            <span class="hero__proof-text">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== CAREER STRIP ===================== -->
+  <section class="strip">
+    <div class="wrap">
+      <p class="strip__label">Where the 37 years were spent</p>
+      <ul class="strip__list">
+        {careerBrands.map((b) => <li>{b}</li>)}
+      </ul>
+      <p class="strip__note">
+        Former employers and retail accounts from Kent’s career. Not clients of {site.name}, and not endorsements.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== WHY HIM ===================== -->
+  <section class="band">
+    <div class="wrap split">
+      <figure class="split__media">
+        <img
+            src={p("/img/pasture-900.webp")} width="900" height="506" alt="Cattle grazing on open Colorado grassland at sunrise" loading="lazy"
+            srcset={`${p("/img/pasture-900.webp")} 900w, ${p("/img/pasture-1600.webp")} 1600w`}
+            sizes="(min-width: 60rem) 34rem, 92vw"
+          />
+      </figure>
+      <div class="split__copy">
+        <p class="tag">Why this consultant</p>
+        <h2>Most food consultants have sat in one chair. Kent has sat in all three.</h2>
+        <p class="split__body">
+          A retailer knows what the buyer wants but not what the plant can do. A supplier knows the
+          plant but not how the category review actually gets decided. A technology vendor knows the
+          data but has never had to sell it into a store. <strong>Kent has held all three jobs</strong> —
+          which means whichever side of the table you are on, he has been on the other one.
+        </p>
+        <ul class="ticks split__ticks">
+          <li>Twenty-one years inside Kroger, ending as Director of Meat and Seafood over 153 stores</li>
+          <li>Six years at Meyer Natural Foods leading a 30-person sales team and a $2.7M marketing budget</li>
+          <li>Nine years at Merck Animal Health / IdentiGen building DNA traceability for retailers and packers</li>
+        </ul>
+        <a class="btn split__btn" href={p("/about/")}>Meet Kent <span class="btn__arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THREE SIDES ===================== -->
+  <section class="band band--dark">
+    <div class="wrap">
+      <div class="head head--center">
+        <p class="tag">The three seats</p>
+        <h2>One career, three vantage points on the same meat case</h2>
+        <p class="lede head__lede">
+          Each of these was a real job with a real P&amp;L behind it. Together they are the reason a
+          conversation with Kent skips the first six months of learning your business.
+        </p>
+      </div>
+      <ThreeSides />
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="band band--off" id="services">
+    <div class="wrap">
+      <div class="head head--center">
+        <p class="tag">What he works on</p>
+        <h2>Four practices, built out of four jobs he actually held</h2>
+        <p class="lede head__lede">
+          Start with whichever one matches what is broken. Most engagements begin as one of these and
+          turn into another.
+        </p>
+      </div>
+
+      <div class="grid grid--2 svc-grid">
+        {services.map((s, i) => (
+          <article class="card card--link svc reveal" style={`--delay:${i * 80}ms`}>
+            <span class="svc__order">{s.order}</span>
+            <h3 class="svc__title"><a href={p(`/services/${s.slug}/`)}>{s.name}</a></h3>
+            <p class="svc__tagline">{s.tagline}</p>
+            <ul class="ticks svc__ticks">
+              {s.outcomes.slice(0, 2).map((o) => <li>{o}</li>)}
+            </ul>
+            <span class="svc__more">Read more <span class="btn__arrow" aria-hidden="true">→</span></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AUDIENCE ===================== -->
+  <section class="band band--dark">
+    <div class="wrap split split--reverse">
+      <div class="split__copy">
+        <p class="tag">Who he works with</p>
+        <h2>Built specifically for:</h2>
+        <ul class="who">
+          {audiences.map((a) => (
+            <li><strong>{a.who}</strong> — {a.body}</li>
+          ))}
+        </ul>
+        <a class="btn who__btn" href={p("/contact/")}>Schedule a free consultation</a>
+      </div>
+      <div class="split__media split__media--stats">
+        <div class="statbox">
+          {proofPoints.map((item) => (
+            <div class="statbox__row">
+              <p class="figure__value">{item.value}</p>
+              <div>
+                <p class="figure__label">{item.label}</p>
+                <p class="figure__note">{item.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(3rem, 7vw, 5.5rem) 0;
+    overflow: hidden;
+  }
+  .hero__bg { position: absolute; inset: 0; z-index: -2; }
+  .hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to right, color-mix(in srgb, var(--night) 94%, transparent) 0%, color-mix(in srgb, var(--night) 80%, transparent) 48%, color-mix(in srgb, var(--night) 45%, transparent) 100%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--night) 70%, transparent), transparent 30%, var(--night) 96%);
+  }
+  .hero__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 64rem) {
+    .hero__inner { grid-template-columns: minmax(0, 1fr) 24rem; }
+  }
+  .hero__head { margin-top: 1.2rem; max-width: 18ch; font-size: var(--step-5); }
+  /* Keep the claim on its own line so "all" never hangs at the end of the
+     line above it. */
+  .hero__gold { color: var(--gold); display: block; }
+  .hero__lede {
+    margin-top: 1.5rem;
+    max-width: 58ch;
+    font-size: var(--step-1);
+    line-height: 1.62;
+    color: var(--frost-soft);
+  }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2.1rem; }
+
+  .hero__portrait { margin: 0; }
+  .hero__portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rule-dark);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+  }
+  .hero__portrait figcaption {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: 1rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--gold);
+  }
+  .hero__pname { font-family: var(--display); font-weight: 800; color: var(--white); font-size: 1rem; }
+  .hero__prole { font-size: 0.8rem; color: var(--frost-faint); }
+  @media (max-width: 63.99rem) { .hero__portrait { max-width: 18rem; } }
+
+  .hero__proof {
+    list-style: none;
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    padding: 1.75rem 0 clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--rule-dark);
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .hero__proof li { display: flex; align-items: center; gap: 0.95rem; }
+  .hero__proof-icon {
+    display: grid;
+    place-items: center;
+    width: 2.9rem; height: 2.9rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--gold) 14%, transparent);
+    color: var(--gold);
+    flex: none;
+  }
+  .hero__proof-text { display: grid; gap: 0.1rem; }
+  .hero__proof-text strong { font-family: var(--display); font-weight: 800; color: var(--white); font-size: 1.05rem; }
+  .hero__proof-text span { font-size: 0.83rem; color: var(--frost-faint); line-height: 1.4; }
+
+  /* ---------- career strip ---------- */
+  .strip { background: var(--white); padding-block: clamp(2.2rem, 4vw, 3.2rem); border-bottom: 1px solid var(--rule); }
+  .strip__label {
+    text-align: center;
+    font-family: var(--display);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .strip__list {
+    list-style: none;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem clamp(1.4rem, 3.5vw, 3rem);
+  }
+  .strip__list li {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.25rem);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    opacity: 0.55;
+  }
+  .strip__note { margin-top: 1.3rem; text-align: center; font-size: 0.76rem; color: var(--ink-faint); }
+
+  /* ---------- split ---------- */
+  .split { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  @media (min-width: 60rem) {
+    .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .split--reverse .split__copy { order: 2; }
+    .split--reverse .split__media { order: 1; }
+  }
+  .split__media { margin: 0; }
+  .split__media img { width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .split__body { margin-top: 1.3rem; color: var(--ink-soft); }
+  .band--dark .split__body { color: var(--frost-soft); }
+  .split__copy h2 { margin-top: 1rem; }
+  .split__ticks { margin-top: 1.6rem; }
+  .split__btn { margin-top: 2rem; }
+
+  /* ---------- section heads ---------- */
+  .head { margin-bottom: clamp(2.2rem, 4vw, 3.2rem); }
+  .head--center { text-align: center; max-width: 46rem; margin-inline: auto; }
+  .head h2 { margin-top: 0.9rem; }
+  .head__lede { margin: 1.1rem auto 0; }
+
+  /* ---------- services ---------- */
+  .svc { display: flex; flex-direction: column; }
+  .svc__order {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    color: var(--gold-deep);
+  }
+  .svc__title { margin-top: 0.7rem; font-size: var(--step-2); }
+  .svc__title a { text-decoration: none; }
+  .svc__tagline { margin-top: 0.7rem; color: var(--ink-soft); }
+  .svc__ticks { margin-top: 1.3rem; font-size: var(--step--1); }
+  .svc__more {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-family: var(--display);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+
+  /* ---------- audience ---------- */
+  .who { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1.05rem; }
+  .who li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--frost-soft);
+    font-size: var(--step--1);
+    line-height: 1.62;
+  }
+  .who li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.62em;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .who__btn { margin-top: 2rem; }
+  .statbox {
+    background: color-mix(in srgb, var(--white) 5%, transparent);
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.3rem, 3vw, 2rem);
+    display: grid;
+    gap: 1.3rem;
+  }
+  .statbox__row {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+    padding-bottom: 1.3rem;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  .statbox__row:last-child { padding-bottom: 0; border-bottom: 0; }
+</style>

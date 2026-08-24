@@ -1,0 +1,87 @@
+---
+import Wordmark from './Wordmark.astro';
+import { site, services, principal } from '../data/site';
+import { p } from '../lib/paths';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer band--dark">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Wordmark />
+        <p class="site-footer__blurb">
+          {principal.name} advises protein producers, food brands and grocery retailers on
+          traceability, category performance and getting on shelf — after 37 years spent on all
+          three sides of the table.
+        </p>
+      </div>
+
+      <nav class="site-footer__cols" aria-label="Footer">
+        <div>
+          <h2 class="site-footer__head">Services</h2>
+          <ul>
+            {services.map((s) => <li><a href={p(`/services/${s.slug}/`)}>{s.short}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <h2 class="site-footer__head">Firm</h2>
+          <ul>
+            <li><a href={p("/about/")}>About Kent</a></li>
+            <li><a href={p("/track-record/")}>Track record</a></li>
+            <li><a href={p("/insights/")}>Insights</a></li>
+            <li><a href={p("/contact/")}>Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="site-footer__head">Get in touch</h2>
+          <ul>
+            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            {site.phoneDisplay && <li><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>}
+            {site.linkedin && <li><a href={site.linkedin} rel="me noopener">LinkedIn</a></li>}
+            <li class="plain">{site.location}</li>
+            <li class="plain">Serving {site.serviceArea}</li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="site-footer__base">
+      <p>© {year} {site.legalName}. All rights reserved.</p>
+      <p>Independent consultancy. Not affiliated with, or endorsed by, any former employer.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem; background: var(--night); }
+  .site-footer__top { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+  @media (min-width: 56rem) {
+    .site-footer__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+  }
+  .site-footer__blurb { margin-top: 1.4rem; max-width: 40ch; color: var(--frost-soft); font-size: var(--step--1); }
+  .site-footer__cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  .site-footer__head {
+    font-family: var(--display);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .site-footer__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
+  .site-footer__cols a { font-size: var(--step--1); text-decoration: none; color: var(--frost-soft); transition: color 160ms ease; }
+  .site-footer__cols a:hover { color: var(--white); }
+  .plain { font-size: var(--step--1); color: var(--frost-faint); }
+  .site-footer__base {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule-dark);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    color: var(--frost-faint);
+  }
+</style>

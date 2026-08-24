@@ -1,0 +1,35 @@
+---
+interface Props { items: { q: string; a: string }[]; heading?: string; }
+const { items, heading = 'Straight answers' } = Astro.props;
+---
+<section class="band band--tight">
+  <div class="wrap wrap--mid">
+    <p class="tag">{heading}</p>
+    <h2 class="faq__head">Questions people ask first</h2>
+    <dl class="faq">
+      {items.map((item) => (
+        <div class="faq__item">
+          <dt class="faq__q">{item.q}</dt>
+          <dd class="faq__a">{item.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .faq__head { margin-top: 0.9rem; }
+  .faq { margin: 2.2rem 0 0; }
+  .faq__item {
+    display: grid;
+    gap: 0.5rem 2.5rem;
+    padding: 1.6rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .faq__item:last-child { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 50rem) {
+    .faq__item { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  }
+  .faq__q { font-family: var(--display); font-weight: 700; font-size: var(--step-0); line-height: 1.4; letter-spacing: -0.02em; }
+  .faq__a { margin: 0; color: var(--ink-soft); font-size: var(--step--1); line-height: 1.68; }
+</style>

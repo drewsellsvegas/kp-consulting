@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Cta from '../../components/Cta.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../data/site';
+import { p } from '../../lib/paths';
+
+const posts = (await getCollection('insights', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf()
+);
+
+const title = 'Insights on Meat, Retail & Food Supply Chains';
+const description =
+  'Practical writing on protein supply chain traceability, meat category management and getting a food brand onto national retail shelves — from 37 years inside the industry.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    url: `${site.url}/insights/`,
+    name: `${site.name} Insights`,
+    description,
+    publisher: { '@id': `${site.url}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Insights', item: `${site.url}/insights/` },
+    ],
+  },
+];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<Base title={title} description={description} path="/insights/" schema={schema}>
+  <PageHero
+    eyebrow="Insights"
+    title="Notes from 37 years around the meat case"
+    lede="No thought leadership. Just the things Kent finds himself explaining over and over on intro calls."
+  />
+
+  <section class="band">
+    <div class="wrap">
+      <div class="grid grid--2 posts">
+        {posts.map((post, i) => (
+          <article class="card card--link post reveal" style={`--delay:${i * 80}ms`}>
+            <p class="post__topic">{post.data.topic}</p>
+            <h2 class="post__title"><a href={p(`/insights/${post.id}/`)}>{post.data.title}</a></h2>
+            <p class="post__desc">{post.data.description}</p>
+            <p class="post__meta">
+              <time datetime={post.data.published.toISOString()}>{fmt(post.data.published)}</time>
+              <span aria-hidden="true">·</span>
+              <span>{post.data.readingMinutes} min read</span>
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .post { display: flex; flex-direction: column; }
+  .post__topic {
+    font-family: var(--display);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .post__title { margin-top: 0.8rem; font-size: var(--step-2); }
+  .post__title a { text-decoration: none; }
+  .post__desc { margin-top: 0.8rem; color: var(--ink-soft); font-size: var(--step--1); line-height: 1.65; }
+  .post__meta {
+    margin-top: auto;
+    padding-top: 1.4rem;
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+  }
+</style>

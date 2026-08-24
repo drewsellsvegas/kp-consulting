@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/site';
+import { p } from '../lib/paths';
+---
+<Base title="Page not found" description="That page does not exist." noindex>
+  <section class="band notfound">
+    <div class="wrap wrap--mid center">
+      <p class="tag">404</p>
+      <h1 class="notfound__head">That page is not in the case</h1>
+      <p class="lede notfound__lede">
+        The link is wrong or the page has moved. Here is where most people are headed.
+      </p>
+      <ul class="notfound__links">
+        {services.map((s) => <li><a href={p(`/services/${s.slug}/`)}>{s.name}</a></li>)}
+        <li><a href={p("/about/")}>About Kent</a></li>
+        <li><a href={p("/insights/")}>Insights</a></li>
+      </ul>
+      <a class="btn notfound__btn" href={p("/")}>Back to the home page</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound { padding-block: clamp(4rem, 10vw, 8rem); }
+  .notfound__head { margin-top: 0.9rem; }
+  .notfound__lede { margin: 1.1rem auto 0; }
+  .notfound__links {
+    list-style: none;
+    margin: 2.2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem 1.6rem;
+  }
+  .notfound__links a { font-family: var(--display); font-weight: 700; font-size: var(--step--1); color: var(--gold-deep); text-decoration: none; }
+  .notfound__links a:hover { text-decoration: underline; }
+  .notfound__btn { margin-top: 2.4rem; }
+</style>

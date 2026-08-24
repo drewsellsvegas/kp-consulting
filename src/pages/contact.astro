@@ -1,0 +1,243 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site, services, principal } from '../data/site';
+
+const title = 'Contact — Book a Free Consultation';
+const description =
+  'Schedule a free 30-minute consultation with Kent Partida on supply chain traceability, meat category management, retail go-to-market, or multicultural food marketing.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url: `${site.url}/contact/`,
+  mainEntity: {
+    '@type': 'ProfessionalService',
+    name: site.name,
+    email: site.email,
+    url: site.url,
+    areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'Canada' }],
+  },
+};
+---
+<Base title={title} description={description} path="/contact/" schema={schema}>
+  <PageHero
+    eyebrow="Contact"
+    title="Book a free consultation"
+    lede="Thirty minutes, no deck. Describe the situation in a few lines and you will get a straight read on whether an engagement makes sense — and if it does not, who to talk to instead."
+  />
+
+  <section class="band">
+    <div class="wrap contact">
+      <div class="contact__form-wrap">
+        <form
+          class="form"
+          id="contact-form"
+          method="post"
+          action={site.formEndpoint || undefined}
+        >
+          <div class="form__row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" autocomplete="organization" required />
+            </div>
+          </div>
+
+          <div class="form__row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="field__opt">(optional)</span></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="topic">What is this about</label>
+            <select id="topic" name="topic">
+              <option value="">Select one</option>
+              {services.map((s) => <option value={s.name}>{s.name}</option>)}
+              <option value="Something else">Something else</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="message">The situation</label>
+            <textarea id="message" name="message" rows="6" required
+              placeholder="What are you trying to move, and what have you already tried?"></textarea>
+          </div>
+
+          <p class="form__consent">
+            Your details go to Kent and nowhere else. No list, no newsletter, no sharing.
+          </p>
+
+          <button class="btn form__submit" type="submit">Send it to Kent</button>
+          <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="contact__aside">
+        <h2 class="contact__aside-head">Or reach him directly</h2>
+        <ul class="contact__list">
+          <li>
+            <span class="contact__icon"><Icon name="handshake" size={20} /></span>
+            <span>
+              <strong>Email</strong>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </span>
+          </li>
+          {site.phoneDisplay && (
+            <li>
+              <span class="contact__icon"><Icon name="years" size={20} /></span>
+              <span>
+                <strong>Phone</strong>
+                <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+              </span>
+            </li>
+          )}
+          {site.linkedin && (
+            <li>
+              <span class="contact__icon"><Icon name="chart" size={20} /></span>
+              <span>
+                <strong>LinkedIn</strong>
+                <a href={site.linkedin} rel="me noopener" target="_blank">Kent Partida</a>
+              </span>
+            </li>
+          )}
+          <li>
+            <span class="contact__icon"><Icon name="case" size={20} /></span>
+            <span>
+              <strong>Based in</strong>
+              {site.location}
+            </span>
+          </li>
+          <li>
+            <span class="contact__icon"><Icon name="chain" size={20} /></span>
+            <span>
+              <strong>Working across</strong>
+              {site.serviceArea}
+            </span>
+          </li>
+        </ul>
+
+        <div class="contact__note">
+          <h3>What happens next</h3>
+          <ol>
+            <li>{principal.name} replies personally, usually within one business day.</li>
+            <li>A 30-minute call — no deck, no pitch.</li>
+            <li>If it is a fit, a written scope, timeline and fee before any work starts.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: start; }
+  @media (min-width: 60rem) {
+    .contact { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  }
+  .form { display: grid; gap: 1.3rem; }
+  .form__row { display: grid; gap: 1.3rem; }
+  @media (min-width: 34rem) { .form__row { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: 0.45rem; }
+  .field label { font-family: var(--display); font-weight: 700; font-size: 0.85rem; }
+  .field__opt { font-weight: 500; color: var(--ink-faint); }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: var(--white);
+    font-size: var(--step--1);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--gold-deep);
+    box-shadow: 0 0 0 3px var(--gold-wash);
+  }
+  .field textarea { resize: vertical; min-height: 8rem; }
+  .form__consent { font-size: 0.8rem; color: var(--ink-faint); }
+  .form__submit { justify-self: start; }
+  .form__status { font-size: var(--step--1); color: var(--ink-soft); min-height: 1.4em; }
+  .form__status[data-state='error'] { color: #a3241a; }
+
+  .contact__aside {
+    background: var(--off);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .contact__aside-head { font-size: var(--step-1); }
+  .contact__list { list-style: none; margin: 1.4rem 0 0; padding: 0; display: grid; gap: 1.1rem; }
+  .contact__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.9rem; align-items: start; }
+  .contact__list li > span:last-child { display: grid; gap: 0.15rem; font-size: var(--step--1); color: var(--ink-soft); }
+  .contact__list strong { font-family: var(--display); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); }
+  .contact__list a { color: var(--ink); }
+  .contact__icon {
+    display: grid;
+    place-items: center;
+    width: 2.2rem; height: 2.2rem;
+    border-radius: 50%;
+    background: var(--gold-wash);
+    color: var(--gold-deep);
+  }
+  .contact__note { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+  .contact__note h3 { font-size: var(--step-0); }
+  .contact__note ol { margin: 0.9rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.55rem; font-size: var(--step--1); color: var(--ink-soft); }
+</style>
+
+<script define:vars={{ endpoint: site.formEndpoint, mailto: site.email }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (event) => {
+    const data = new FormData(form);
+
+    // No form service configured yet: hand the message to the visitor's mail
+    // client rather than pretending it was delivered.
+    if (!endpoint) {
+      event.preventDefault();
+      const body = [
+        `Name: ${data.get('name') ?? ''}`,
+        `Company: ${data.get('company') ?? ''}`,
+        `Email: ${data.get('email') ?? ''}`,
+        `Phone: ${data.get('phone') || '—'}`,
+        `Topic: ${data.get('topic') || '—'}`,
+        '',
+        String(data.get('message') ?? ''),
+      ].join('\n');
+      const subject = `Consultation request — ${data.get('company') ?? ''}`;
+      status.textContent = 'Opening your email app…';
+      status.removeAttribute('data-state');
+      window.location.href =
+        `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
+    event.preventDefault();
+    status.textContent = 'Sending…';
+    status.removeAttribute('data-state');
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      status.textContent = 'Sent. Kent will reply within one business day.';
+    } catch {
+      status.setAttribute('data-state', 'error');
+      status.textContent = `That did not go through. Email ${mailto} directly and it will get there.`;
+    }
+  });
+</script>

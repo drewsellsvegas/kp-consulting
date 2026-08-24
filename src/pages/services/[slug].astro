@@ -1,0 +1,210 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { site, services, principal } from '../../data/site';
+import { p } from '../../lib/paths';
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const path = `/services/${service.slug}/`;
+const others = services.filter((s) => s.slug !== service.slug);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.name,
+    description: service.summary,
+    url: `${site.url}${path}`,
+    serviceType: service.name,
+    provider: { '@type': 'ProfessionalService', name: site.name, url: site.url },
+    areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'Canada' }],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${site.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.name, item: `${site.url}${path}` },
+    ],
+  },
+];
+---
+<Base
+  title={`${service.name} Consulting`}
+  description={service.summary}
+  path={path}
+  headerTone="dark"
+  schema={schema}
+>
+  <PageHero
+    eyebrow={`Service ${service.order}`}
+    title={service.name}
+    lede={service.tagline}
+    crumbs={[{ href: '/services/', label: 'Services' }]}
+  />
+
+  <section class="band">
+    <div class="wrap detail">
+      <div class="detail__main">
+        <p class="detail__summary">{service.summary}</p>
+        <p class="detail__body">
+          Work is led personally by {principal.name}. There is no account team and no junior
+          associate — the person who ran these departments and sold into them is the person doing
+          the work, and the person you call when something changes.
+        </p>
+        <a class="btn detail__btn" href={p("/contact/")}>Schedule a free consultation</a>
+      </div>
+      <aside class="detail__aside">
+        <h2 class="detail__aside-head">What you end up with</h2>
+        <ul class="ticks">
+          {service.outcomes.map((o) => <li>{o}</li>)}
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band--tight band--off">
+    <div class="wrap">
+      <p class="tag">How the work runs</p>
+      <h2 class="steps__head">Four stages, in this order</h2>
+      <ol class="steps">
+        {service.engagement.map((step, i) => (
+          <li class="steps__item reveal" style={`--delay:${i * 70}ms`}>
+            <p class="steps__n">{String(i + 1).padStart(2, '0')}</p>
+            <h3 class="steps__name">{step.step}</h3>
+            <p class="steps__body">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="steps__note">
+        Engagements run as a fixed-scope project or a monthly advisory retainer. Scope, timeline and
+        fee are agreed in writing before anything starts.
+      </p>
+    </div>
+  </section>
+
+  <Faq items={service.faqs} />
+
+  <section class="band band--tight">
+    <div class="wrap">
+      <p class="tag">Also works on</p>
+      <div class="grid grid--3 also">
+        {others.map((s) => (
+          <a class="also__card" href={p(`/services/${s.slug}/`)}>
+            <span class="also__order">Practice {s.order}</span>
+            <span class="also__name">{s.name}</span>
+            <span class="also__tagline">{s.short}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="Next step"
+    heading={`Talk through your ${service.short.toLowerCase()} problem`}
+    body={`Thirty minutes with ${principal.name}, no deck. Describe the situation and you will get an honest read on whether it is worth an engagement — and what it would take.`}
+  />
+</Base>
+
+<style>
+  .detail { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  @media (min-width: 58rem) {
+    .detail { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  }
+  .detail__summary { font-size: var(--step-2); line-height: 1.5; color: var(--ink); font-family: var(--display); font-weight: 700; letter-spacing: -0.025em; }
+  .detail__body { margin-top: 1.3rem; color: var(--ink-soft); max-width: 54ch; }
+  .detail__btn { margin-top: 1.9rem; }
+  .detail__aside {
+    background: var(--off);
+    border-radius: var(--radius-lg);
+    border-top: 4px solid var(--gold);
+    padding: clamp(1.4rem, 3vw, 2rem);
+  }
+  .detail__aside-head {
+    font-family: var(--display);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.2rem;
+  }
+  .detail__aside .ticks { font-size: var(--step--1); }
+
+  .steps__head { margin-top: 0.9rem; }
+  .steps { list-style: none; margin: 2.4rem 0 0; padding: 0; display: grid; gap: 1.25rem; }
+  @media (min-width: 54rem) {
+    .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .steps__item {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.3rem, 2.5vw, 1.7rem);
+    box-shadow: var(--shadow-sm);
+  }
+  .steps__n {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--gold-wash);
+    color: var(--gold-deep);
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.85rem;
+  }
+  .steps__name { margin-top: 1rem; font-size: var(--step-1); }
+  .steps__body { margin-top: 0.6rem; font-size: var(--step--1); color: var(--ink-soft); line-height: 1.62; }
+  .steps__note {
+    margin-top: 2.4rem;
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    max-width: 60ch;
+  }
+
+  .also { margin-top: 1.8rem; }
+  .also__card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+  }
+  .also__card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: var(--gold); }
+  .also__order {
+    font-family: var(--display);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .also__name { font-family: var(--display); font-weight: 700; font-size: var(--step-1); letter-spacing: -0.02em; line-height: 1.25; }
+  .also__tagline { font-size: var(--step--1); color: var(--ink-soft); }
+</style>

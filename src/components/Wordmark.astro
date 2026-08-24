@@ -1,0 +1,51 @@
+---
+import BrandMark from './BrandMark.astro';
+import { site } from '../data/site';
+import { p } from '../lib/paths';
+interface Props { href?: string | null; compact?: boolean; }
+const { href = '/', compact = false } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag href={href ? p(href) : undefined} class="wordmark" aria-label={`${site.name} — home`}>
+  <span class="wordmark__badge"><BrandMark size={30} /></span>
+  <span class="wordmark__text">
+    <span class="wordmark__name">{site.name}</span>
+    {!compact && <span class="wordmark__sub">Food &amp; Protein Industry Advisors</span>}
+  </span>
+</Tag>
+
+<style>
+  .wordmark { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: inherit; }
+  .wordmark__badge {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 7px;
+    background: var(--gold);
+    color: var(--night);
+    flex: none;
+    transition: background-color 180ms ease;
+  }
+  .wordmark:hover .wordmark__badge { background: var(--gold-bright); }
+  .wordmark__text { display: grid; gap: 0.18rem; }
+  .wordmark__name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.06rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .wordmark__sub {
+    font-family: var(--display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.1;
+  }
+  :global(.band--dark) .wordmark__sub,
+  :global(.site-header--dark) .wordmark__sub { color: var(--frost-faint); }
+  @media (max-width: 26rem) { .wordmark__sub { display: none; } }
+</style>
