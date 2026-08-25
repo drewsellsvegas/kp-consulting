@@ -400,9 +400,9 @@ export const careerBrands = [
  * these, not the pitch itself — the detail lives on /about and /track-record.
  */
 export const heroProof = [
-  { icon: 'case', value: 'Get on the shelf', label: 'National and regional accounts opened' },
-  { icon: 'shield', value: 'Prove the chain', label: 'Origin and species you can defend' },
-  { icon: 'chart', value: 'Fix the category', label: 'Assortment, margin and velocity' },
+  { icon: 'case', value: 'Get on the shelf', label: 'Into national and regional grocery chains' },
+  { icon: 'shield', value: 'Prove your claims', label: 'Show the product is what the label says' },
+  { icon: 'chart', value: 'Fix what is not selling', label: 'What to stock, what to cut, what it earns' },
 ] as const;
 
 /** The three situations that make someone pick up the phone. */
