@@ -431,7 +431,7 @@ export const problems = [
 export const engagement = [
   {
     step: 'Call',
-    body: 'Thirty minutes on what you are trying to move. You will get an honest read on whether an engagement is worth it — including when the answer is no.',
+    body: 'Fifteen minutes on what you are trying to move. You will get an honest read on whether an engagement is worth it — including when the answer is no.',
   },
   {
     step: 'Scope',

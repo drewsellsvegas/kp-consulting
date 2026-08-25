@@ -102,7 +102,7 @@ const audiences = [
       <div class="hero__copy">
         <p class="tag">Food &amp; protein industry consulting</p>
         <h1 class="hero__head">
-          Sell more protein.<br />Prove where it came from.<span class="hero__gold">Win the category.</span>
+          Sell more protein.<br />Prove its origin.<span class="hero__gold">Win the category.</span>
         </h1>
         <p class="hero__lede">
           KP Consulting helps protein producers, food brands and grocery retailers
@@ -315,7 +315,9 @@ const audiences = [
     gap: clamp(2.5rem, 5vw, 4rem);
     align-items: center;
   }
-  @media (min-width: 64rem) {
+  /* Below 72rem the copy column gets too narrow for the headline to hold its
+     three lines, so the hero stacks rather than breaking mid-sentence. */
+  @media (min-width: 72rem) {
     .hero__inner { grid-template-columns: minmax(0, 1fr) 24rem; }
   }
   .hero__head { margin-top: 1.2rem; max-width: 24ch; font-size: var(--step-5); }
@@ -347,7 +349,7 @@ const audiences = [
   }
   .hero__pname { font-family: var(--display); font-weight: 800; color: var(--white); font-size: 1rem; }
   .hero__prole { font-size: 0.8rem; color: var(--frost-faint); }
-  @media (max-width: 63.99rem) { .hero__portrait { max-width: 18rem; } }
+  @media (max-width: 71.99rem) { .hero__portrait { max-width: 18rem; } }
 
   .hero__proof {
     list-style: none;
