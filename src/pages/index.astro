@@ -194,11 +194,13 @@ const audiences = [
       />
     </div>
     <div class="wrap stripe__inner">
-      <p class="stripe__quote">
-        “Whichever side of the table you are on, he has already sat on the other one.”
+      <p class="stripe__line">
+        <span class="stripe__n">21 years</span> buying meat.
+        <span class="stripe__n">6 years</span> selling it.
+        <span class="stripe__n">9 years</span> proving it.
       </p>
       <p class="stripe__by">
-        Retailer at Kroger · Supplier at Meyer Natural Foods · Technology at Merck Animal Health
+        The Kroger Company · Meyer Natural Foods · Merck Animal Health
       </p>
     </div>
   </section>
@@ -479,14 +481,15 @@ const audiences = [
     background: linear-gradient(to bottom, color-mix(in srgb, var(--night) 82%, transparent), color-mix(in srgb, var(--night) 68%, transparent));
   }
   .stripe__inner { max-width: 44rem; }
-  .stripe__quote {
+  .stripe__line {
     font-family: var(--display);
     font-weight: 800;
     font-size: var(--step-2);
-    line-height: 1.28;
+    line-height: 1.32;
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
+  .stripe__n { color: var(--gold); }
   .stripe__by {
     margin-top: 1.1rem;
     font-size: var(--step--1);
