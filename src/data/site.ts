@@ -395,11 +395,65 @@ export const careerBrands = [
   'Wegmans',
 ];
 
+/**
+ * Home page leads with what a client gets. Kent's résumé is the evidence for
+ * these, not the pitch itself — the detail lives on /about and /track-record.
+ */
 export const heroProof = [
-  { icon: 'years', value: '37 years', label: 'In meat, retail and food marketing' },
-  { icon: 'chart', value: '$450M', label: 'Retail meat & seafood P&L managed' },
-  { icon: 'chain', value: 'All 3 sides', label: 'Retailer, supplier and technology' },
+  { icon: 'case', value: 'Get on the shelf', label: 'National and regional accounts opened' },
+  { icon: 'shield', value: 'Prove the chain', label: 'Origin and species you can defend' },
+  { icon: 'chart', value: 'Fix the category', label: 'Assortment, margin and velocity' },
 ] as const;
+
+/** The three situations that make someone pick up the phone. */
+export const problems = [
+  {
+    icon: 'case',
+    problem: 'You cannot get in front of the buyer.',
+    outcome:
+      'A target list ranked by what you can actually service, a line review deck built the way merchandisers read them, and a warm introduction where one exists.',
+  },
+  {
+    icon: 'shield',
+    problem: 'A customer asked how you know, and the answer was a binder.',
+    outcome:
+      'A documented chain of custody and a verification program that holds up under audit — then positioned as a reason to buy rather than a cost line.',
+  },
+  {
+    icon: 'chart',
+    problem: 'The department is not earning its square footage.',
+    outcome:
+      'An assortment built on the shopper data the retailer already has, a service case with a program behind it, and a team who can build the next review themselves.',
+  },
+];
+
+/** How any engagement runs, whatever the practice. */
+export const engagement = [
+  {
+    step: 'Call',
+    body: 'Thirty minutes on what you are trying to move. You will get an honest read on whether an engagement is worth it — including when the answer is no.',
+  },
+  {
+    step: 'Scope',
+    body: 'A written scope, timeline and fixed fee before any work starts. Fixed-scope project or monthly advisory, whichever fits the problem.',
+  },
+  {
+    step: 'Work',
+    body: 'Kent does the work himself. No account team, no junior associate, and one person to call when something changes.',
+  },
+  {
+    step: 'Hand over',
+    body: 'You keep the program and the reasoning behind it, so your team can run the next cycle without paying for it again.',
+  },
+];
+
+/** Outcomes Kent has produced — framed as evidence, never as a promise. */
+export const results = [
+  { value: '+10%', label: 'Service case sales in the first year a selling program ran', note: 'Kroger, Indianapolis division' },
+  { value: '1.5M lbs', label: 'Year-over-year volume growth delivered two years running', note: 'Meyer Natural Foods, 2014–15' },
+  { value: 'Record', label: 'Company profit margins — in a down cattle market', note: 'Meyer Natural Foods, 2013–14' },
+  { value: '4 chains', label: 'National accounts opened or grown from the supplier side', note: 'Kroger · Target · Safeway · Wegmans' },
+];
 
 export const nav = [
   { href: '/services/', label: 'Services' },
